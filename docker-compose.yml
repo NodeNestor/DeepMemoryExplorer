@@ -1,0 +1,16 @@
+services:
+  deep-memory-explorer:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: deep-memory-explorer
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    env_file:
+      - .env
+    environment:
+      - HIVEMIND_URL=${HIVEMIND_URL:-http://host.docker.internal:8100}
+      - LLM_API_URL=${LLM_API_URL:-http://host.docker.internal:8989/v1}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
